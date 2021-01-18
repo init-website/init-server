@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}   
+{% load static %}
+{% block contents %}
+
+  <main role="main" class="container">
+    <div class="jumbotron">
+      <h1>과제방</h1>
+      <p class="lead">여기는 과제방입니다.</p>
+      <a class="btn btn-lg btn-primary" href="../components/navbar/" role="button">View navbar docs &raquo;</a>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for project in projects %}
+      <div class="col">
+        
+
+        <div class="card">
+          <img src="..." class="card-img-top" alt="...">
+
+          <div class="card-body">
+            <h5 class="card-title">
+              <p>{{project.title}}</p>
+            </h5>
+            <p class="card-text">
+              <p>{{project.body}}</p>
+            </p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">
+              <p>{{project.pub_date}}</p>
+            </small>
+          </div>
+        </div>
+        
+
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+{% endblock %}
