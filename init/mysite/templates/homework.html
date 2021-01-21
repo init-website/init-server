@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% load static %} {% block contents %}
+
+<main role="main" class="container">
+  <div class="row mt-5">
+    <div class="col-12">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">제목</th>
+            <th scope="col">아이디</th>
+            <th scope="col">작성일</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for homework in homeworks %}
+          <tr>
+            <th scope="row">{{homework.id}}</th>
+            <td>{{homework.title}}</td>
+            <td>{{homework.writer}}</td>
+            <td>{{homework.create_at}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button class="btn btn-primary">글쓰기</button>
+    </div>
+  </div>
+</main>
+{% endblock %}
