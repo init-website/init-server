@@ -20,7 +20,11 @@ import mysite.views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',mysite.views.home, name="home"),
-    path('new',mysite.views.new, name="new")
-
+    path('new/',mysite.views.new, name="new"),
+    path('homework/',mysite.views.homework, name="homework"),
+    path('homework/<int:year>/', mysite.views.homework, name="homework"),
+    path('homework/<int:year>/<int:homework_id>/', mysite.views.homework_detail, name='detail'),
+    path('homework/<int:year>/<int:homework_id>/submit/', mysite.views.homework_submit, name='submit'),
+    path('homework/<int:year>/<int:homework_id>/result/', mysite.views.homework_result, name='result')
     # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]
