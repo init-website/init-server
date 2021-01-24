@@ -4,6 +4,7 @@ import datetime
 
 # Create your models here.
 class Project(models.Model):
+    objects = models.Manager()
     title = models.CharField(max_length=200)
     pub_date = models.DateField('date published')
     body = models.TextField()
@@ -12,6 +13,7 @@ class Project(models.Model):
         return self.title
 
 class Homework(models.Model):
+    objects = models.Manager()
     year = models.CharField(max_length=20)
     title = models.CharField(max_length=200)
     contents = models.TextField()

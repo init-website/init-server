@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import mysite.views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +26,10 @@ urlpatterns = [
     path('homework/<int:year>/', mysite.views.homework, name="homework"),
     path('homework/<int:year>/<int:homework_id>/', mysite.views.homework_detail, name='detail'),
     path('homework/<int:year>/<int:homework_id>/submit/', mysite.views.homework_submit, name='submit'),
-    path('homework/<int:year>/<int:homework_id>/result/', mysite.views.homework_result, name='result')
+    path('homework/<int:year>/<int:homework_id>/result/', mysite.views.homework_result, name='result'),
+
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('signup/', mysite.views.signup, name='signup'),
     # urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]
