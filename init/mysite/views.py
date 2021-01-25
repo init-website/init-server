@@ -1,8 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import Project, Homework
-
-# Create your views here.
+from .forms import HomeworkUploadForm
+from .models import Project, Homework, Homework_submit
 
 def home(request):
     projects = Project.objects.all() #queryset
@@ -19,7 +18,20 @@ def homework_detail(request, year, homework_id):
     return HttpResponse("homework detail page")
 
 def homework_submit(request, year, homework_id):
-    return HttpResponse("homework submit page")
+    if request.method == "POST":
+        form = HomeworkUploadForm(request.POST, request.FILES)
+
+        if  form.is_valid():
+            instance = Homework.objects.get(id=homework_id)
+            obj = Homework_submit(homework_id=instance, contents=form.data['contents'], file=form.data['file'])
+            obj.save()
+            return redirect('result', year, homework_id)
+    else:
+        form = HomeworkUploadForm()
+    return render(request, 'submit.html', {
+        'form': form
+    })
+
 
 def homework_result(requerst, year, homework_id):
     return HttpResponse("homework result page")
