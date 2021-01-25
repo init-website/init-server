@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 import datetime
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class Project(models.Model):
@@ -23,3 +24,7 @@ class Homework(models.Model):
 
     def __str__(self):
         return self.title
+
+class InitUser(AbstractUser):
+    generation = models.CharField(null=False, blank=False, max_length=20)
+    git = models.URLField(null=True, blank=True)

@@ -50,15 +50,17 @@
 
     <div class="row justify-content-md-center">
       <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Billing address</h4>
 
         <form method="post" class="post-form needs-validation" novalidate>
           {% csrf_token %}
           {% include "form_errors.html" %}
           <div class="row g-3">
             <div class="col-sm-6">
-              <label for="firstName" class="form-label">이름</label>
-              <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+              <label for="name" class="form-label">이름</label>
+              <input type="text" class="form-control" id="last_name" name="last_name" placeholder="성"
+              value="{{ form.last_name.value|default_if_none:'' }}" required>
+              <input type="text" class="form-control" id="first_name" name="first_name" placeholder="이름"
+              value="{{ form.first_name.value|default_if_none:'' }}" required>
               <div class="invalid-feedback">
                 Valid first name is required.
               </div>
@@ -87,7 +89,7 @@
             <div class="col-12">
               <label for="password2" class="form-label">PW2</label>
               <div class="input-group">
-                <input type="password2" class="form-control" name="password2" id="password2"
+                <input type="password" class="form-control" name="password2" id="password2"
                 value="{{ form.password2.value|default_if_none:'' }}">
                 </div>
               </div>
@@ -97,6 +99,24 @@
               <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
               <input type="text" class="form-control" name="email" id="email"
               value="{{ form.email.value|default_if_none:'' }}">
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="generation" class="form-label">기수</label>
+              <div class="input-group">
+                <input type="generation" class="form-control" name="generation" id="generation"
+                value="{{ form.generation.value|default_if_none:'' }}">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label for="git" class="form-label">GitHub 주소</label>
+              <div class="input-group">
+                <input type="git" class="form-control" name="git" id="git"
+                value="{{ form.git.value|default_if_none:'' }}">
+                </div>
               </div>
             </div>
 

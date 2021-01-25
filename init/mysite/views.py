@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .models import Project, Homework
+from django.contrib.auth.forms import UserCreationForm
 from .forms import UserForm
 
 # Create your views here.
@@ -33,9 +34,9 @@ def signup(request):
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
+            user = authenticate( username=username, password=raw_password)
             login(request, user)
-            return redirect('index')
+            return redirect('/')
     else:
         form = UserForm()
     return render(request, 'signup.html', {'form': form})
