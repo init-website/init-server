@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+
+<main role="main" class="container">
+    <br>
+    <br>
+    <h1>project_detail</h1>
+    <p>{{post.title}}</p>
+    <p>{{post.contents}}</p>
+
+    <!-- {% for photo in post.photo_set.all%}
+        <img src="{{photo.image.url}}" width="100%"><br>
+    {% endfor %} -->
+
+    {% if post.img %}
+    <!-- <img src="{{ post.img.url }}" class="img-fluid" alt="Responsive image"> -->
+    <img src="{{ post.img.url }}" alt="" height="600">
+    <br>
+    {% endif %}
+    <p><a href="{{post.url}}" target="_blank">{{post.url}}</a></p>
+
+    <a href="/projects/">목록</a>
+    <a href="/blog/{{post.pk}}/delete">삭제</a>
+    <a href="/blog/{{post.pk}}/update">수정</a>
+</main>
+{% endblock %}

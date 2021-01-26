@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+
+<main role="main" class="container"></main>
+    <br><br>
+    <h1>update</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">프로젝트명</span>
+            </div>
+            <input type="text" class="form-control" placeholder="" aria-label="title" aria-describedby="basic-addon1"
+                name="postname">
+        </div>
+
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">내용</span>
+            </div>
+            <textarea class="form-control" aria-label="contents" rows="10" cols="50" name="contents"></textarea>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">프로젝트 URL</span>
+            </div>
+            <input type="text" class="form-control" placeholder="" aria-label="contents"
+                aria-describedby="basic-addon1" name="url">
+        </div>
+
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile" name="img"> 
+            <label class="custom-file-label" for="customFile">파일 선택</label>
+        </div>
+
+        <div class="jumbotron">
+            <input type="submit" value="수정">
+        </div>
+        
+    </form>
+</main>
+{% endblock %}
