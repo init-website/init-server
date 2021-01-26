@@ -1,12 +1,30 @@
 from django.db import models
 from django.utils import timezone
 import datetime
+# from imagekit.models import ProcessedImageField, ImageSpecField
+# from imagekit.processors import ResizeToFit
 
 # Create your models here.
 class Project(models.Model):
+    objects = models.Manager()
     title = models.CharField(max_length=200)
-    pub_date = models.DateField('date published')
-    body = models.TextField()
+    img = models.ImageField(blank=True, null=True, upload_to='project_uploads/')
+    # img = ProcessedImageField(
+    #     upload_to='project_uploads/resize/%Y%m%d',
+    #     processors=[ResizeToFit(width=960, upscale=False)],
+    #     format='JPEG'
+    # )
+
+    # image_thumbnail = ImageSpecField(
+    #     source='image',
+    #     processors=[ResizeToFit(width=320, upscale=False)],
+    #     format='JPEG',
+    #     options={'quality': 60}
+    # )
+    pub_date = models.DateField(auto_now=True)
+    contents = models.TextField()
+    url = models.TextField(null=True)
+    year = models.DateField(auto_now=True)
 
     def __str__(self):
         return self.title
