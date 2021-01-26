@@ -45,7 +45,7 @@
   <main>
     <div class="py-5 text-center">
       <h2>init 회원가입</h2>
-      <p class="lead">init 동아리부원이 되신 것을 진심으로 환영합니다. 회원가입을 진행해 주세요.</p>
+      <p class="lead">init 동아리부원이 되신 것을 진심으로 환영합니다!<br>계정 생성을 위해 회원 가입을 진행해 주세요.</p>
     </div>
 
     <div class="row justify-content-md-center">
@@ -55,12 +55,18 @@
           {% csrf_token %}
           {% include "form_errors.html" %}
           <div class="row g-3">
-            <div class="col-sm-6">
+            <div class="col-12">
               <label for="name" class="form-label">이름</label>
-              <input type="text" class="form-control" id="last_name" name="last_name" placeholder="성"
-              value="{{ form.last_name.value|default_if_none:'' }}" required>
-              <input type="text" class="form-control" id="first_name" name="first_name" placeholder="이름"
-              value="{{ form.first_name.value|default_if_none:'' }}" required>
+              <div class="row">
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="last_name" name="last_name" placeholder="성"
+                  value="{{ form.last_name.value|default_if_none:'' }}" required>
+                </div>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="first_name" name="first_name" placeholder="이름"
+                  value="{{ form.first_name.value|default_if_none:'' }}" required>
+                </div>
+              </div>
               <div class="invalid-feedback">
                 Valid first name is required.
               </div>
@@ -69,16 +75,16 @@
             <div class="col-12">
               <label for="username" class="form-label">ID</label>
               <div class="input-group">
-                <input type="text" class="form-control" name="username" id="username" placeholder="Username" 
+                <input type="text" class="form-control" name="username" id="username" placeholder="ID" 
                 value="{{ form.username.value|default_if_none:'' }}"required>
-              <div class="invalid-feedback">
+                <div class="invalid-feedback">
                   Your username is required.
                 </div>
               </div>
             </div>
 
             <div class="col-12">
-              <label for="password" class="form-label">PW</label>
+              <label for="password" class="form-label">비밀번호</label>
               <div class="input-group">
                 <input type="password" class="form-control" name="password1" id="password1"
                 value="{{ form.password1.value|default_if_none:'' }}">
@@ -87,54 +93,45 @@
             </div>
 
             <div class="col-12">
-              <label for="password2" class="form-label">PW2</label>
+              <label for="password2" class="form-label">비밀번호 확인</label>
               <div class="input-group">
                 <input type="password" class="form-control" name="password2" id="password2"
                 value="{{ form.password2.value|default_if_none:'' }}">
-                </div>
               </div>
             </div>
 
             <div class="col-12">
-              <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" name="email" id="email"
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" id="email"
               value="{{ form.email.value|default_if_none:'' }}">
-              </div>
             </div>
 
             <div class="col-12">
               <label for="generation" class="form-label">기수</label>
               <div class="input-group">
-                <input type="generation" class="form-control" name="generation" id="generation"
+                <input type="number" class="form-control" name="generation" id="generation" placeholder="ex) 1"
                 value="{{ form.generation.value|default_if_none:'' }}">
-                </div>
               </div>
             </div>
 
             <div class="col-12">
               <label for="git" class="form-label">GitHub 주소</label>
               <div class="input-group">
-                <input type="git" class="form-control" name="git" id="git"
+                <input type="url" class="form-control" name="git" id="git" placeholder="ex) https://github.com/init"
                 value="{{ form.git.value|default_if_none:'' }}">
-                </div>
               </div>
             </div>
 
           <hr class="my-4">
 
-          <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+          <button class="w-100 btn btn-primary btn-lg" type="submit">회원가입</button>
         </form>
       </div>
     </div>
   </main>
 
   <footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">&copy; 2017–2020 Company Name</p>
-    <ul class="list-inline">
-      <li class="list-inline-item"><a href="#">Privacy</a></li>
-      <li class="list-inline-item"><a href="#">Terms</a></li>
-      <li class="list-inline-item"><a href="#">Support</a></li>
-    </ul>
+    <p class="mb-1">&copy; 2021 init</p>
   </footer>
 </div>
 
