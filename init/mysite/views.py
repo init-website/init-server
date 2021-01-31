@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from .forms import HomeworkUploadForm, UserForm
 from .models import Project, Homework, Homework_submit
 import datetime
+from django.contrib.auth.forms import UserCreationForm
+
 
 def home(request):
     projects = Project.objects.all() #queryset
@@ -37,21 +39,10 @@ def homework_submit(request, year, homework_id):
 def homework_result(requerst, year, homework_id):
     return HttpResponse("homework result page")
 
-def signup(request):
-    if request.method == "POST":
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('index')
-    else:
-        form = UserForm()
-    return render(request, 'signup.html', {'form': form})
-
 def projects(request):
+    # if request.method == "POST":
+    #     post.year = request.POST['year']
+    #     postlist = Post.objects.filter(Q(year=post.year)).order_by('-id')
     postlist = Project.objects.all().order_by('-id')
     return render(request, 'projects.html', {'postlist':postlist})
 
@@ -60,26 +51,21 @@ def project_detail(request, pk):
     return render(request, 'project_detail.html', {'post':post})
 
 def project_new(request):
+    post=Project()
     if request.method == 'POST':
-        if request.POST['img']:
-            new_article=Project.objects.create(
-                title=request.POST['postname'],
-                contents=request.POST['contents'],
-                img=request.POST['img'],
-                pub_date=datetime.datetime.now(),
-                url=request.POST['url'],
-                year= datetime.datetime.now().year,
-            )
-        else:
-            new_article=Project.objects.create(
-                title=request.POST['postname'],
-                contents=request.POST['contents'],
-                img=request.POST['img'],
-                pub_date=datetime.datetime.now(),
-                url=request.POST['url'],
-                year= datetime.datetime.now().year,
-            )
+        post.title = request.POST['postname']
+        post.writer = request.POST['people']
+        post.contents = request.POST['contents']
+        try:
+            form.img=request.FILES['img']
+        except: 
+            pass
+        pub_date=datetime.datetime.now()
+        url=request.POST['url']
+        year=request.POST['year']
+        #year= datetime.datetime.now().year
         return redirect('/projects/')
+        
     return render(request, 'project_new.html')
 
 def project_delete(request, pk):
@@ -87,13 +73,13 @@ def project_delete(request, pk):
     if request.method == 'POST':
         post.delete()
         return redirect('/projects/')
-    return render(request, 'project_delete.html', {'Post': post})
+    return render(request, 'project_delete.html', {'post': post})
 
 def project_update(request, post_id):
     post = Project.objects.get(id=post_id)
-
     if request.method == "POST":
         post.title = request.POST['postname']
+        post.writer = request.POST['people']
         post.contents = request.POST['contents']
         post.img = request.POST['img']
         post.url=request.POST['url']
@@ -101,4 +87,18 @@ def project_update(request, post_id):
         return redirect('/projects/' + str(post.id))
 
     else:
-        return render(request, 'project_update.html')   
+        return render(request, 'project_update.html', {'post':post})  
+
+def signup(request):
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate( username=username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserForm()
+    return render(request, 'signup.html', {'form': form})
