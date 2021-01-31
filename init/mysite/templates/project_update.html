@@ -1,25 +1,34 @@
 {% extends 'base.html' %}
 {% load static %}
+<!-- {% load imagekit %} -->
 {% block contents %}
 
 <main role="main" class="container"></main>
     <br><br>
     <h1>update</h1>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">프로젝트명</span>
             </div>
             <input type="text" class="form-control" placeholder="" aria-label="title" aria-describedby="basic-addon1"
-                name="postname">
+                name="postname" value = "{{post.title}}">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">구성원</span>
+            </div>
+            <input type="text" class="form-control"  aria-describedby="basic-addon1"
+                name="people" value = "{{post.writer}}">
         </div>
 
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text">내용</span>
             </div>
-            <textarea class="form-control" aria-label="contents" rows="10" cols="50" name="contents"></textarea>
+            <textarea class="form-control" aria-label="contents" rows="10" cols="50" name="contents">{{post.contents}}</textarea>
         </div>
 
         <div class="input-group mb-3">
@@ -27,7 +36,7 @@
                 <span class="input-group-text" id="basic-addon1">프로젝트 URL</span>
             </div>
             <input type="text" class="form-control" placeholder="" aria-label="contents"
-                aria-describedby="basic-addon1" name="url">
+                aria-describedby="basic-addon1" name="url" value ="{{post.url}}">
         </div>
 
         <div class="custom-file">

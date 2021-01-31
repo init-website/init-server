@@ -5,21 +5,29 @@
 <main role="main" class="container">
     <br><br>
     <h1>write</h1>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <select class="custom-select">
+        <select class="custom-select" name="year">
             <option selected>기수</option>
-            <option value="1">1기</option>
-            <option value="2">2기</option>
-            <option value="3">3기</option>
+            <option value="2020">1기</option>
+            <option value="2021">2기</option>
+            <option value="2023">3기</option>
         </select>
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">제목</span>
+                <span class="input-group-text" id="basic-addon1">프로젝트명</span>
             </div>
             <input type="text" class="form-control" placeholder="" aria-label="title" aria-describedby="basic-addon1"
                 name="postname">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">구성원</span>
+            </div>
+            <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1"
+                name="people">
         </div>
 
         <div class="input-group">
@@ -36,6 +44,7 @@
             <input type="text" class="form-control" placeholder="" aria-label="contents"
                 aria-describedby="basic-addon1" name="url">
         </div>
+        
         <div class="custom-file">
             <input type="file" class="custom-file-input" id="customFile" name="img"> 
             <label class="custom-file-label" for="customFile">파일 선택</label>
@@ -47,6 +56,3 @@
     </form>   
 </main>
 {% endblock %}
-
-
-<!-- multiple-->

@@ -2,9 +2,10 @@
 {% load static %}
 {% block contents %}
     <br><br><br>
-    <form method="POST">
+    <form name="hiddenForm" method="POST">
         {% csrf_token %}
-        <h3>{{ Project.title }} - 삭제하기</h3>
-        <button>삭제</button>
     </form>
+    <script>
+        document.hiddenForm.submit();
+    </script>
 {% endblock %}

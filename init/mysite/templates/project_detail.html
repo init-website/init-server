@@ -7,21 +7,32 @@
     <br>
     <h1>project_detail</h1>
     <p>{{post.title}}</p>
-    <p>{{post.contents}}</p>
-
+    <p>{{post.writer}}</p>
     <!-- {% for photo in post.photo_set.all%}
         <img src="{{photo.image.url}}" width="100%"><br>
     {% endfor %} -->
 
     {% if post.img %}
-    <!-- <img src="{{ post.img.url }}" class="img-fluid" alt="Responsive image"> -->
     <img src="{{ post.img.url }}" alt="" height="600">
-    <br>
+    <!-- <p>{{ post.img.url }}</p> -->
     {% endif %}
+
+    <p>{{post.contents}}</p>
+
     <p><a href="{{post.url}}" target="_blank">{{post.url}}</a></p>
 
     <a href="/projects/">목록</a>
-    <a href="/blog/{{post.pk}}/delete">삭제</a>
+    <a href="javascript:void(0)" onclick="delchk(this)">삭제</a>
     <a href="/blog/{{post.pk}}/update">수정</a>
 </main>
+<script type="text/javascript">
+    function delchk() {
+        if (confirm("삭제하시겠습니까?")) {
+            location.href = "/blog/{{post.pk}}/delete";
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 {% endblock %}
