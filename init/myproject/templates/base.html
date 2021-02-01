@@ -1,85 +1,104 @@
 {% load static %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta
+      name="author"
+      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    />
+    <meta name="generator" content="Jekyll v4.1.1" />
+    <title>init</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
+    <link href="{%static 'style.css' %}" rel="stylesheet" />
+    <link rel="shortcut icon" href="{%static 'img/logo.png' %}" />
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-  <meta name="generator" content="Jekyll v4.1.1">
-  <title>init</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;900&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-  <link href="style.css" rel="stylesheet">
-
-  <style>
-    a {text-decoration: none;}
-
-  
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
+    <style>
+      a {
+        text-decoration: none;
       }
-    }
-  </style>
-  <!-- Custom styles for this template -->
-  <link href="style.css" rel="stylesheet">
-</head>
 
-<body>
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">Fixed navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'homework' %}">과제 업로드</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'projects' %}">Project</a>
-        </li>
-        <li class="nav-item">
-          {% if user.is_authenticated %}
-          <a class="nav-link" href="{% url 'logout' %}">{{ user.username }} (로그아웃)</a>
-          {% else %}
-          <a class="nav-link" href="{% url 'login' %}">로그인</a>
-          {% endif %}
-        </li>
-      </ul>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
 
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="text-center bg bg-cover">
+    <img class="logo-img img-lt" src="{%static 'img/65/i.png' %}" />
+    <img class="logo-img img-rt" src="{%static 'img/65/n.png' %}" />
+    <img class="logo-img img-rb" src="{%static 'img/65/i.png' %}" />
+    <img class="logo-img img-lb" src="{%static 'img/65/t.png' %}" />
+
+    <div class="cover-container d-flex w-100 h-100 p-4 mx-auto flex-column">
+      <header class="masthead mb-auto">
+        <div class="inner">
+          <h3 class="f-b masthead-brand cl-white">
+            <a class="f-b" href="/">init</a>
+          </h3>
+          <nav class="nav justify-content-center">
+            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="notice.html">Notice</a>
+            <a class="nav-link" href="/projects/">Project</a>
+            <a class="nav-link" href="recruit.html">Recruit</a>
+            <a class="nav-link" href="/homework/">Homework</a>
+            <a class="nav-link" href="login.html"
+              ><button
+                type="button"
+                class="btn btn-light"
+                style="display: none"
+                data-toggle="modal"
+                data-target="#exampleModal"
+              >
+                Log in
+              </button></a
+            >
+          </nav>
+        </div>
+      </header>
+      {% block contents %} {% endblock %}
+      <footer class="mastfoot mt-auto">
+        <div class="inner">
+          <p>Copyright &copy; yangnawon</p>
+        </div>
+      </footer>
     </div>
-  </nav>
-
-    {% block contents %}
-
-    {% endblock %}
-    
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-  </script>
-  <script>
-    window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')
-  </script>
-  <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
+  </body>
 </html>

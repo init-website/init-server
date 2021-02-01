@@ -2,46 +2,53 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, get_user_model
 from .forms import HomeworkUploadForm, UserForm
-from .models import Project, Homework, Homework_submit
+from .models import InitUser, Project, Homework, Homework_submit
 import datetime
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
-#from multipledispatch import dispatch //No module named 'multipledispatch' -> multipledispatch 모듈 설치했는데도 안되네
-
 def home(request):
-    projects = Project.objects.all() #queryset
-    return render(request, 'home.html', {'projects': projects})
+    return render(request, 'index.html')
 
 def new(request):
     return render(request, 'new.html')
 
-def homework(request, year):
+def homework(request):
+    user_id = request.user.id
+    if user_id:
+        user = InitUser.objects.get(id=user_id)
+        return redirect('homework_list', user.year)
+    return redirect('home')
+
+def homework_list(request, year):
     homeworks = Homework.objects.filter(year=year).order_by('-id')
-    return render(request, 'homework.html', {'homeworks': homeworks})
+    user_id = request.user.id
+    done = True
+    return render(request, 'homework_list.html', {'homeworks': homeworks, 'done' : done})
 
 def homework_detail(request, year, homework_id):
-    return HttpResponse("homework detail page")
+    homework = Homework.objects.get(id=homework_id)
+    return HttpResponse(homework)
 
 def homework_submit(request, year, homework_id):
+    homework = Homework.objects.get(id=homework_id)
+    user = InitUser.objects.get(id=request.user.id)
     if request.method == "POST":
         form = HomeworkUploadForm(request.POST, request.FILES)
 
         if  form.is_valid():
-            instance = Homework.objects.get(id=homework_id)
-            obj = Homework_submit(homework_id=instance, contents=form.data['contents'], file=form.data['file'])
+            obj = Homework_submit(homework_id=homework, user_id=user, contents=form.data['contents'], file=form.data['file'])
             obj.save()
-            return redirect('result', year, homework_id)
+            return redirect('homework_result', year, homework_id)
     else:
         form = HomeworkUploadForm()
-    return render(request, 'submit.html', {
-        'form': form
+    return render(request, 'homework_submit.html', {
+        'form': form, 'homework': homework
     })
 
 def homework_result(requerst, year, homework_id):
     return HttpResponse("homework result page")
 
-# @dispatch(dict,int)
 def projects(request):
     if request.method == "POST":
         if request.POST['generation']:
@@ -51,12 +58,6 @@ def projects(request):
         gen = "2020"
         postlist = Project.objects.all().order_by('-id')
     return render(request, 'projects.html', {'postlist':postlist, 'gen':gen})
-
-# @dispatch(dict,int)---------------------------------------------------------
-# def projects(request, year):
-#     postlist = Project.objects.filter(year=year).order_by('-id')
-#     #postlist = Project.objects.all().order_by('-id')
-#     return render(request, 'projects.html', {'postlist':postlist})
 
 def project_detail(request, pk):
     post = Project.objects.get(pk=pk)
@@ -117,3 +118,4 @@ def signup(request):
     else:
         form = UserForm()
     return render(request, 'signup.html', {'form': form})
+

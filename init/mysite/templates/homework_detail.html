@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% load static %} {% block contents %}
+<div class="p-t-10 p-b-10">
+  <h1 class="cl-white">Detail</h1>
+</div>
+<div class="container">
+  <div class="jumbotron bg-transdark">
+    <form>
+      <div class="form-group">
+        <textarea
+          class="form-control mb-3"
+          id="exampleFormControlTextarea1"
+          rows="1"
+        ></textarea>
+        <textarea
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="10"
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <input
+          type="file"
+          class="form-control-file cl-white"
+          id="exampleFormControlFile1"
+        />
+      </div>
+
+      <a class="btn btn-lg bg-blue m-4" href="#" role="button">done</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
