@@ -5,7 +5,9 @@ from .forms import HomeworkUploadForm, UserForm
 from .models import Project, Homework, Homework_submit
 import datetime
 from django.contrib.auth.forms import UserCreationForm
-#from django.db.models import Q
+from django.contrib import messages
+
+#from multipledispatch import dispatch //No module named 'multipledispatch' -> multipledispatch 모듈 설치했는데도 안되네
 
 def home(request):
     projects = Project.objects.all() #queryset
@@ -39,12 +41,22 @@ def homework_submit(request, year, homework_id):
 def homework_result(requerst, year, homework_id):
     return HttpResponse("homework result page")
 
+# @dispatch(dict,int)
 def projects(request):
-    # if request.method == "POST":
-    #     post.year = request.POST['year']
-    #     postlist = Post.objects.filter(Q(year=post.year)).order_by('-id')
-    postlist = Project.objects.all().order_by('-id')
-    return render(request, 'projects.html', {'postlist':postlist})
+    if request.method == "POST":
+        if request.POST['generation']:
+            gen = request.POST['generation']
+            postlist = Project.objects.filter(year=gen).order_by('-id')
+    else:
+        gen = "2020"
+        postlist = Project.objects.all().order_by('-id')
+    return render(request, 'projects.html', {'postlist':postlist, 'gen':gen})
+
+# @dispatch(dict,int)---------------------------------------------------------
+# def projects(request, year):
+#     postlist = Project.objects.filter(year=year).order_by('-id')
+#     #postlist = Project.objects.all().order_by('-id')
+#     return render(request, 'projects.html', {'postlist':postlist})
 
 def project_detail(request, pk):
     post = Project.objects.get(pk=pk)
@@ -63,25 +75,10 @@ def project_new(request):
             year= request.POST['year'],
         )
         # print("User: " + str(request.user))
+
         return redirect('/projects/')
     return render(request, 'project_new.html')
-    # post=Project()
-    # if request.method == 'POST':
-    #     post.title = request.POST['postname']
-    #     post.writer = request.POST['people']
-    #     post.contents = request.POST['contents']
-    #     try:
-    #         post.img=request.FILES['img']
-    #     except: 
-    #         pass
-    #     pub_date=datetime.datetime.now()
-    #     url=request.POST['url']
-    #     #year=request.POST['year']
-    #     #year= datetime.datetime.now().year
-    #     return redirect('/projects/') #redirect('/projects/')
-
-    # return render(request, 'project_new.html')
-
+   
 def project_delete(request, pk):
     post = Project.objects.get(pk=pk)
     if request.method == 'POST':
@@ -91,11 +88,15 @@ def project_delete(request, pk):
 
 def project_update(request, post_id):
     post = Project.objects.get(id=post_id)
+    if request.user != post.writer:
+        messages.warning(request, "권한 없음")
+        return redirect('/projects/')
+
     if request.method == "POST":
         post.title = request.POST['postname']
         post.people = request.POST['people']
         post.contents = request.POST['contents']
-        post.img = request.POST['img'] #수정 필요
+        post.img = request.FILES['img'] #수정 필요
         post.url=request.POST['url']
         post.save()
         return redirect('/projects/' + str(post.id))
