@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% load static %} {% block contents %}
+<div class="p-t-10 p-b-10">
+  <h1 class="cl-white">Submit</h1>
+</div>
+<div class="container">
+  <div class="jumbotron bg-transdark">
+    <table class="table table-sm table-borderless">
+      <tbody>
+        <tr>
+          <td class="cl-white text-left">{{homework.title}}</td>
+          <td class="cl-white text-right">{{homework.end_date}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <form method="POST">
+      {% csrf_token %} {{ form.contents }} {{form.file}}
+      <button type="submit" class="btn btn-lg bg-blue m-4">Done</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

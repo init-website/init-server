@@ -15,6 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 import mysite.views
 
 urlpatterns = [
@@ -22,9 +25,14 @@ urlpatterns = [
     path('',mysite.views.home, name="home"),
     path('new/',mysite.views.new, name="new"),
     path('homework/',mysite.views.homework, name="homework"),
-    path('homework/<int:year>/', mysite.views.homework, name="homework"),
-    path('homework/<int:year>/<int:homework_id>/', mysite.views.homework_detail, name='detail'),
-    path('homework/<int:year>/<int:homework_id>/submit/', mysite.views.homework_submit, name='submit'),
-    path('homework/<int:year>/<int:homework_id>/result/', mysite.views.homework_result, name='result')
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('homework/<int:year>/', mysite.views.homework_list, name="homework_list"),
+    path('homework/<int:year>/<int:homework_id>/', mysite.views.homework_detail, name='homework_detail'),
+    path('homework/<int:year>/<int:homework_id>/submit/', mysite.views.homework_submit, name='homework_submit'),
+    path('homework/<int:year>/<int:homework_id>/result/', mysite.views.homework_result, name='homework_result'),
+
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('signup/', mysite.views.signup, name='signup'),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

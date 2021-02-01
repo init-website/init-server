@@ -1,16 +1,19 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from .models import Homework_submit
+from .models import Homework_submit, InitUser
 
 class HomeworkUploadForm(forms.ModelForm):
     class Meta:
         model = Homework_submit
         fields = ['contents', 'file']
-
-class UserForm(UserCreationForm):
-    email = forms.EmailField(label="이메일")
-
+        widgets = {
+            'contents': forms.Textarea(attrs={'class':'form-control mb-3',
+          'id': 'exampleFormControlTextarea1',
+          'rows': '10'}), 'file': forms.FileInput(attrs={'class': 'form-control-file cl-white', 
+          'id': 'exampleFormControlFile1'})
+       }
+       
+class SignupForm(UserCreationForm):
     class Meta:
-        model = User
-        fields = ("username", "email")
+        model = InitUser
+        fields = ['username','email','first_name','last_name','year','git']
