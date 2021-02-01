@@ -1,7 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .forms import HomeworkUploadForm
+from django.contrib.auth import authenticate, login, get_user_model
+from .forms import HomeworkUploadForm, UserForm
 from .models import Project, Homework, Homework_submit
+import datetime
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
+#from multipledispatch import dispatch //No module named 'multipledispatch' -> multipledispatch 모듈 설치했는데도 안되네
 
 def home(request):
     projects = Project.objects.all() #queryset
@@ -32,6 +38,82 @@ def homework_submit(request, year, homework_id):
         'form': form
     })
 
-
 def homework_result(requerst, year, homework_id):
     return HttpResponse("homework result page")
+
+# @dispatch(dict,int)
+def projects(request):
+    if request.method == "POST":
+        if request.POST['generation']:
+            gen = request.POST['generation']
+            postlist = Project.objects.filter(year=gen).order_by('-id')
+    else:
+        gen = "2020"
+        postlist = Project.objects.all().order_by('-id')
+    return render(request, 'projects.html', {'postlist':postlist, 'gen':gen})
+
+# @dispatch(dict,int)---------------------------------------------------------
+# def projects(request, year):
+#     postlist = Project.objects.filter(year=year).order_by('-id')
+#     #postlist = Project.objects.all().order_by('-id')
+#     return render(request, 'projects.html', {'postlist':postlist})
+
+def project_detail(request, pk):
+    post = Project.objects.get(pk=pk)
+    return render(request, 'project_detail.html', {'post':post})
+
+def project_new(request):
+    if request.method == 'POST':
+        new_article=Project.objects.create(
+            title=request.POST['postname'],
+            writer = request.user,
+            people = request.POST['people'],
+            contents=request.POST['contents'],
+            img=request.FILES['img'],
+            pub_date=datetime.datetime.now(),
+            url=request.POST['url'],
+            year= request.POST['year'],
+        )
+        # print("User: " + str(request.user))
+
+        return redirect('/projects/')
+    return render(request, 'project_new.html')
+   
+def project_delete(request, pk):
+    post = Project.objects.get(pk=pk)
+    if request.method == 'POST':
+        post.delete()
+        return redirect('/projects/')
+    return render(request, 'project_delete.html', {'post': post})
+
+def project_update(request, post_id):
+    post = Project.objects.get(id=post_id)
+    if request.user != post.writer:
+        messages.warning(request, "권한 없음")
+        return redirect('/projects/')
+
+    if request.method == "POST":
+        post.title = request.POST['postname']
+        post.people = request.POST['people']
+        post.contents = request.POST['contents']
+        post.img = request.FILES['img'] #수정 필요
+        post.url=request.POST['url']
+        post.save()
+        return redirect('/projects/' + str(post.id))
+
+    else:
+        return render(request, 'project_update.html', {'post':post})  
+
+def signup(request):
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate( username=username, password=raw_password)
+            login(request, user)
+            return redirect('/')
+    else:
+        form = UserForm()
+    return render(request, 'signup.html', {'form': form})

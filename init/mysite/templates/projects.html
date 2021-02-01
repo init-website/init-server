@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+<main role="main" class="container">
+  <br>
+  <br>
+  <h1>Projects</h1>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <select class="custom-select" name="generation" id="selectGen">
+      {% if gen %}
+      <option selected>{{gen}}</option>
+      {% endif %}
+      <option value="2020">2020</option>
+      <option value="2021">2021</option>
+      <option value="2022">2022</option>
+      <option value="2023">2023</option>
+    </select>
+    <input id="btn" type="submit" value="검색" onclick="GoEx()">
+  </form>
+  <div class="row row-cols-1 row-cols-md-5 g-4">
+    {% for list in postlist %}
+    <div class="col">
+      <div class="card">
+        {% if list.img_thumbnail %}
+        <img src="{{list.img_thumbnail.url}}" class="card-img-top" alt="...">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">
+            <p><a href="{{list.pk}}/">{{list.title}}</a></p>
+          </h5>
+          <p>{{list.people}}</p>
+          <p class="card-text">
+            <p>{{list.contents}}</p>
+          </p>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">
+            <p>{{list.pub_date}}</p>
+            <p>{{list.writer}}</p>
+            <!-- <p>{{list.year}}</p> -->
+          </small>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <br><br>
+  {% if user.is_authenticated %}
+  <div class="jumbotron">
+    <a class="btn btn-lg btn-primary" href="project_new/" role="button">글쓰기 &raquo;</a>
+  </div>
+  {% endif %}
+</main>
+{% endblock %}

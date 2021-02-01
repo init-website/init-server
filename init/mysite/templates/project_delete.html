@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+    <br><br><br>
+    <form name="hiddenForm" method="POST">
+        {% csrf_token %}
+    </form>
+    <script>
+        document.hiddenForm.submit();
+    </script>
+{% endblock %}

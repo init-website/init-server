@@ -16,15 +16,30 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 import mysite.views
+from django.contrib.auth import views as auth_views
+
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',mysite.views.home, name="home"),
     path('new/',mysite.views.new, name="new"),
+
     path('homework/',mysite.views.homework, name="homework"),
     path('homework/<int:year>/', mysite.views.homework, name="homework"),
     path('homework/<int:year>/<int:homework_id>/', mysite.views.homework_detail, name='detail'),
     path('homework/<int:year>/<int:homework_id>/submit/', mysite.views.homework_submit, name='submit'),
-    path('homework/<int:year>/<int:homework_id>/result/', mysite.views.homework_result, name='result')
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('homework/<int:year>/<int:homework_id>/result/', mysite.views.homework_result, name='result'),
+    
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('signup/', mysite.views.signup, name='signup'),
+
+    path('projects/',mysite.views.projects, name='projects'),
+    path('projects/<int:pk>/',mysite.views.project_detail, name='project_detail'),
+    path('projects/project_new/', mysite.views.project_new, name='project_new'),
+    path('blog/<int:pk>/delete/', mysite.views.project_delete, name='project_delete'),
+    path('blog/<int:post_id>/update', mysite.views.project_update, name='project_update'),
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
