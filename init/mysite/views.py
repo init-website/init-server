@@ -5,6 +5,7 @@ from .forms import HomeworkUploadForm, UserForm
 from .models import Project, Homework, Homework_submit
 import datetime
 from django.contrib.auth.forms import UserCreationForm
+#from django.db.models import Q
 
 
 def home(request):
@@ -57,7 +58,7 @@ def project_new(request):
         post.writer = request.POST['people']
         post.contents = request.POST['contents']
         try:
-            form.img=request.FILES['img']
+            post.img=request.FILES['img']
         except: 
             pass
         pub_date=datetime.datetime.now()
@@ -81,7 +82,7 @@ def project_update(request, post_id):
         post.title = request.POST['postname']
         post.writer = request.POST['people']
         post.contents = request.POST['contents']
-        post.img = request.POST['img']
+        post.img = request.POST['img'] #수정 필요
         post.url=request.POST['url']
         post.save()
         return redirect('/projects/' + str(post.id))
