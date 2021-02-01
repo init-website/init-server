@@ -17,7 +17,7 @@
                   <h5 class="card-title">
                     <p><a href="{{list.pk}}/">{{list.title}}</a></p>
                   </h5>
-                  <p>{{list.writer}}</p>
+                  <p>{{list.people}}</p>
                   <p class="card-text">
                     <p>{{list.contents}}</p>
                   </p>
@@ -25,6 +25,7 @@
                 <div class="card-footer">
                   <small class="text-muted">
                     <p>{{list.pub_date}}</p>
+                    <p>{{list.year}}</p>
                   </small>
                 </div>
             </div>
@@ -32,8 +33,10 @@
         {% endfor %}
     </div>
     <br><br>
+    {% if user.is_authenticated %}
     <div class="jumbotron">
       <a class="btn btn-lg btn-primary" href="project_new/" role="button">글쓰기 &raquo;</a>
     </div>
+    {% endif %}
 </main>
 {% endblock %}
