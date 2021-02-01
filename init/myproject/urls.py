@@ -36,7 +36,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', mysite.views.signup, name='signup'),
 
-    path('projects/' ,mysite.views.projects, name='projects'),
+    path('projects/',mysite.views.projects, name='projects'),
     path('projects/<int:pk>/',mysite.views.project_detail, name='project_detail'),
     path('projects/project_new/', mysite.views.project_new, name='project_new'),
     path('blog/<int:pk>/delete/', mysite.views.project_delete, name='project_delete'),
