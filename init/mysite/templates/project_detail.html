@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load imagekit %}
 {% block contents %}
 
 <main role="main" class="container">
-    <br>
-    <br>
+    <br><br>
     <h1>project_detail</h1>
     <p>{{post.title}}</p>
-    <p>{{post.writer}}</p>
+    <p>{{post.people}}</p>
     <!-- {% for photo in post.photo_set.all%}
         <img src="{{photo.image.url}}" width="100%"><br>
     {% endfor %} -->
@@ -16,11 +16,11 @@
     <img src="{{ post.img.url }}" alt="" height="600">
     <!-- <p>{{ post.img.url }}</p> -->
     {% endif %}
-
+    <br><br>
     <p>{{post.contents}}</p>
 
     <p><a href="{{post.url}}" target="_blank">{{post.url}}</a></p>
-
+    
     <a href="/projects/">목록</a>
     <a href="javascript:void(0)" onclick="delchk(this)">삭제</a>
     <a href="/blog/{{post.pk}}/update">수정</a>
