@@ -7,7 +7,6 @@ import datetime
 from django.contrib.auth.forms import UserCreationForm
 #from django.db.models import Q
 
-
 def home(request):
     projects = Project.objects.all() #queryset
     return render(request, 'home.html', {'projects': projects})
@@ -52,22 +51,36 @@ def project_detail(request, pk):
     return render(request, 'project_detail.html', {'post':post})
 
 def project_new(request):
-    post=Project()
     if request.method == 'POST':
-        post.title = request.POST['postname']
-        post.writer = request.POST['people']
-        post.contents = request.POST['contents']
-        try:
-            post.img=request.FILES['img']
-        except: 
-            pass
-        pub_date=datetime.datetime.now()
-        url=request.POST['url']
-        year=request.POST['year']
-        #year= datetime.datetime.now().year
+        new_article=Project.objects.create(
+            title=request.POST['postname'],
+            writer = request.user,
+            people = request.POST['people'],
+            contents=request.POST['contents'],
+            img=request.FILES['img'],
+            pub_date=datetime.datetime.now(),
+            url=request.POST['url'],
+            year= request.POST['year'],
+        )
+        # print("User: " + str(request.user))
         return redirect('/projects/')
-        
     return render(request, 'project_new.html')
+    # post=Project()
+    # if request.method == 'POST':
+    #     post.title = request.POST['postname']
+    #     post.writer = request.POST['people']
+    #     post.contents = request.POST['contents']
+    #     try:
+    #         post.img=request.FILES['img']
+    #     except: 
+    #         pass
+    #     pub_date=datetime.datetime.now()
+    #     url=request.POST['url']
+    #     #year=request.POST['year']
+    #     #year= datetime.datetime.now().year
+    #     return redirect('/projects/') #redirect('/projects/')
+
+    # return render(request, 'project_new.html')
 
 def project_delete(request, pk):
     post = Project.objects.get(pk=pk)
@@ -80,7 +93,7 @@ def project_update(request, post_id):
     post = Project.objects.get(id=post_id)
     if request.method == "POST":
         post.title = request.POST['postname']
-        post.writer = request.POST['people']
+        post.people = request.POST['people']
         post.contents = request.POST['contents']
         post.img = request.POST['img'] #수정 필요
         post.url=request.POST['url']
