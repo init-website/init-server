@@ -21,7 +21,7 @@
                 <span class="input-group-text" id="basic-addon1">구성원</span>
             </div>
             <input type="text" class="form-control"  aria-describedby="basic-addon1"
-                name="people" value = "{{post.writer}}">
+                name="people" value = "{{post.people}}">
         </div>
 
         <div class="input-group">
@@ -43,11 +43,16 @@
             <input type="file" class="custom-file-input" id="customFile" name="img"> 
             <label class="custom-file-label" for="customFile">파일 선택</label>
         </div>
-
+        
         <div class="jumbotron">
             <input type="submit" value="수정">
         </div>
         
     </form>
 </main>
+<script>
+    "{% if messages %}"
+    alert("수정 권한이 없습니다.");
+    "{% endif %}"
+</script>
 {% endblock %}

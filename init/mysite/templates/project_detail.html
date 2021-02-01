@@ -18,13 +18,15 @@
     {% endif %}
     <br><br>
     <p>{{post.contents}}</p>
-
     <p><a href="{{post.url}}" target="_blank">{{post.url}}</a></p>
-    
+
     <a href="/projects/">목록</a>
-    <a href="javascript:void(0)" onclick="delchk(this)">삭제</a>
-    <a href="/blog/{{post.pk}}/update">수정</a>
+    <span class="control hidden">
+        <a href="javascript:void(0)" onclick="delchk(this)">삭제</a>
+        <a href="/blog/{{post.pk}}/update">수정</a>
+    </span>
 </main>
+
 <script type="text/javascript">
     function delchk() {
         if (confirm("삭제하시겠습니까?")) {
