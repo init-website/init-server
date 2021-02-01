@@ -19,11 +19,16 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 import mysite.views
+from django.contrib.auth import views as auth_views
+
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',mysite.views.home, name="home"),
     path('new/',mysite.views.new, name="new"),
+
     path('homework/',mysite.views.homework, name="homework"),
     path('homework/<int:year>/', mysite.views.homework_list, name="homework_list"),
     path('homework/<int:year>/<int:homework_id>/', mysite.views.homework_detail, name='homework_detail'),
@@ -33,6 +38,11 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', mysite.views.signup, name='signup'),
-]
 
+    path('projects/',mysite.views.projects, name='projects'),
+    path('projects/<int:pk>/',mysite.views.project_detail, name='project_detail'),
+    path('projects/project_new/', mysite.views.project_new, name='project_new'),
+    path('blog/<int:pk>/delete/', mysite.views.project_delete, name='project_delete'),
+    path('blog/<int:post_id>/update', mysite.views.project_update, name='project_update'),
+]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

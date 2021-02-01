@@ -31,10 +31,20 @@
       integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
       crossorigin="anonymous"
     />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+      crossorigin="anonymous"
+    />
     <link href="{%static 'style.css' %}" rel="stylesheet" />
     <link rel="shortcut icon" href="{%static 'img/logo.png' %}" />
 
     <style>
+      a {
+        text-decoration: none;
+      }
+
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -50,10 +60,7 @@
         }
       }
     </style>
-    <!-- Custom styles for this template -->
-    <link href="{%static 'style.css' %}" rel="stylesheet" />
   </head>
-
   <body class="text-center bg bg-cover">
     <img class="logo-img img-lt" src="{%static 'img/65/i.png' %}" />
     <img class="logo-img img-rt" src="{%static 'img/65/n.png' %}" />
@@ -69,7 +76,7 @@
           <nav class="nav justify-content-center">
             <a class="nav-link" href="about.html">About</a>
             <a class="nav-link" href="notice.html">Notice</a>
-            <a class="nav-link" href="project.html">Project</a>
+            <a class="nav-link" href="/projects/">Project</a>
             <a class="nav-link" href="recruit.html">Recruit</a>
             <a class="nav-link" href="/homework/">Homework</a>
             <a class="nav-link" href="login.html"
