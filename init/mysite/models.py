@@ -1,24 +1,34 @@
 from django.db import models
 from django.utils import timezone
 import datetime
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-
 from imagekit.models import ProcessedImageField, ImageSpecField
 from imagekit.processors import ResizeToFill, ResizeToFit, Thumbnail
 
 # Create your models here.
 
 class InitUser(AbstractUser):
-    year = models.CharField(default="2020",max_length=20, null=False, blank=False)
-    git = models.URLField(default="git" , null=True, blank=True)
+    student_number = models.CharField(max_length=10, null=False, blank=False)
+    year = models.CharField(max_length=20, null=False, blank=False)
+    
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    nickname = models.CharField(max_length=10)
+    bio = models.TextField(blank=True)
+    picture = models.ImageField(blank=True, upload_to='profile/')
+    birthday = models.DateField(blank=True)
+    git = models.URLField(max_length=60, blank=True)
+
 
 class Homework(models.Model):
-    year = models.CharField(default="2020",max_length=20, null=False, blank=False)
-    title = models.CharField(max_length=200)
-    contents = models.TextField()
-    writer = models.ForeignKey(InitUser, on_delete=models.CASCADE, db_column='writer')
+    year = models.CharField(max_length=20, blank=False)
+    title = models.CharField(max_length=200, blank=False)
+    contents = models.TextField(blank=False)
+    writer = models.ForeignKey(InitUser, on_delete=models.DO_NOTHING, db_column='writer')
     created_at  = models.DateTimeField(auto_now_add=True)
-    end_date = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    end_date = models.DateTimeField(blank=False)
 
     def __str__(self):
         return self.title
@@ -26,7 +36,7 @@ class Homework(models.Model):
 class Homework_submit(models.Model):
     homework_id = models.ForeignKey(Homework, on_delete=models.CASCADE, db_column='homework_id')
     user_id = models.ForeignKey(InitUser, on_delete=models.CASCADE, db_column='user_id')
-    contents = models.TextField(null=True)
+    contents = models.TextField(blank=False)
     file = models.FileField(null=True, blank=True, upload_to='homework_uploads/')
     submitted_at = models.DateTimeField(auto_now=True)
 
@@ -54,8 +64,6 @@ class Project(models.Model):
     pub_date = models.DateField(auto_now=True)
     contents = models.TextField(null=True)
     url = models.URLField(null=True, blank=True)
-    #url = models.TextField(null=True)
-    #year = models.DateField(auto_now=True)
     year = models.CharField(max_length=4, null=False)
 
     def __str__(self):

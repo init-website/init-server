@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, get_user_model
-from .forms import HomeworkUploadForm, UserForm
-from .models import InitUser, Project, Homework, Homework_submit
-import datetime
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
+from .forms import HomeworkUploadForm, CreateUserForm
+from .models import InitUser, Profile, Project, Homework, Homework_submit
+import datetime
 
 def home(request):
     return render(request, 'index.html')
@@ -107,15 +106,22 @@ def project_update(request, post_id):
 
 def signup(request):
     if request.method == "POST":
-        form = UserForm(request.POST)
+        form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate( username=username, password=raw_password)
-            login(request, user)
-            return redirect('/')
-    else:
-        form = UserForm()
+            user = form.save()
+            Profile.objects.create(user=user)
+            return redirect('/login')
+    form = CreateUserForm()
     return render(request, 'signup.html', {'form': form})
 
+def login(request):
+    if request.method=="POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        
+        user=authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+    return render(request, 'login.html')

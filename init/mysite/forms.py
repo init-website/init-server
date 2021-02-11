@@ -13,7 +13,7 @@ class HomeworkUploadForm(forms.ModelForm):
           'id': 'exampleFormControlFile1'})
        }
        
-class UserForm(UserCreationForm):
+class CreateUserForm(UserCreationForm):
     class Meta:
         model = InitUser
-        fields = ['username','email','first_name','last_name','year','git']
+        fields = ['username','email', 'password1', 'password2', 'first_name', 'last_name', 'student_number', 'year',]
