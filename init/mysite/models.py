@@ -14,11 +14,11 @@ class InitUser(AbstractUser):
     
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    nickname = models.CharField(max_length=10)
-    bio = models.TextField(blank=True)
-    picture = models.ImageField(blank=True, upload_to='profile/')
-    birthday = models.DateField(blank=True)
-    git = models.URLField(max_length=60, blank=True)
+    nickname = models.CharField(max_length=10, null=True, blank=True)
+    bio = models.TextField(null=True, blank=True)
+    picture = models.ImageField(null=True, blank=True, upload_to='profile/')
+    birthday = models.DateField(null=True, blank=True)
+    git = models.URLField(max_length=60, null=True, blank=True)
 
 
 class Homework(models.Model):
