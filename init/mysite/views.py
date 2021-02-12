@@ -110,8 +110,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             Profile.objects.create(user=user)
-            messages.success(request, 'Account created successfully')
-            return redirect('/login')
+            return redirect('login/')
     else:
         form = CreateUserForm()
     return render(request, 'signup.html', {'form': form})

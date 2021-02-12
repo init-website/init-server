@@ -19,16 +19,16 @@ class CreateUserForm(forms.ModelForm):
     password2 = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput)
     class Meta:
         model = InitUser
-        fields = ['username', 'password1', 'password2', 'last_name', 'first_name', 'email', 'student_number', 'year']
+        fields = ['username', 'password1', 'password2', 'last_name', 'first_name', 'email', 'year']
     def clean_username(self):
-        username = self.cleaned_data['username'].lower()
+        username = self.cleaned_data['username']
         r = InitUser.objects.filter(username=username)
         if r.count():
             raise  ValidationError("이 아이디는 이미 사용중입니다.")
         return username
 
     def clean_email(self):
-        email = self.cleaned_data['email'].lower()
+        email = self.cleaned_data['email']
         r = InitUser.objects.filter(email=email)
         if r.count():
             raise  ValidationError("이미 존재하는 이메일입니다.")
@@ -44,9 +44,9 @@ class CreateUserForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        user =  InitUser.objects.create_user(
-            self.cleaned_data['username'],
-            self.cleaned_data['email'],
-            self.cleaned_data['password1']
-        )
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
         return user
+        

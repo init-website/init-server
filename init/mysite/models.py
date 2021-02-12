@@ -9,7 +9,9 @@ from imagekit.processors import ResizeToFill, ResizeToFit, Thumbnail
 # Create your models here.
 
 class InitUser(AbstractUser):
-    student_number = models.CharField(max_length=10, null=False, blank=False)
+    first_name = models.CharField(max_length=30, blank=False, null=False)
+    last_name = models.CharField(max_length=150, blank=False, null=False)
+    email = models.EmailField(blank=False, null=False)
     year = models.CharField(max_length=20, null=False, blank=False)
     
 class Profile(models.Model):
