@@ -19,15 +19,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 import mysite.views
-from django.contrib.auth import views as auth_views
-
-from django.conf.urls.static import static
-from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',mysite.views.home, name="home"),
-    path('new/',mysite.views.new, name="new"),
 
     path('homework/',mysite.views.homework, name="homework"),
     path('homework/<int:year>/', mysite.views.homework_list, name="homework_list"),
@@ -38,6 +33,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('signup/', mysite.views.signup, name='signup'),
+    path('update/', mysite.views.update, name='update'),
 
     path('projects/',mysite.views.projects, name='projects'),
     path('projects/<int:pk>/',mysite.views.project_detail, name='project_detail'),

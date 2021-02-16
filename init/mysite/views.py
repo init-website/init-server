@@ -2,20 +2,54 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-from .forms import HomeworkUploadForm, CreateUserForm
+from .forms import HomeworkUploadForm, CreateUserForm, UpdateUserForm
 from .models import InitUser, Profile, Project, Homework, Homework_submit
 import datetime
+
+def signup(request):
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            Profile.objects.create(user=user)
+            return redirect('/login')
+    else:
+        form = CreateUserForm()
+    return render(request, 'signup.html', {'form': form})
+
+def login(request):
+    if request.method=="POST":
+        username=request.POST.get('username')
+        password=request.POST.get('password')
+        
+        user=authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('/')
+    return render(request, 'login.html')
+
+def update(request):
+    user = request.user
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    else:
+	    form = UpdateUserForm(instance = user)
+    return render(request, 'update.html', {'form': form})
+
+def profile(request):
+    return render(request, 'index.html')
 
 def home(request):
     return render(request, 'index.html')
 
-def new(request):
-    return render(request, 'new.html')
-
 def homework(request):
-    user_id = request.user.id
-    if user_id:
-        user = InitUser.objects.get(id=user_id)
+    user = request.user
+    if user.is_authenticated:
+        user = InitUser.objects.get(username=user.username)
         return redirect('homework_list', user.year)
     return redirect('home')
 
@@ -104,25 +138,4 @@ def project_update(request, post_id):
     else:
         return render(request, 'project_update.html', {'post':post})  
 
-def signup(request):
-    if request.method == "POST":
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            Profile.objects.create(user=user)
-            return redirect('login/')
-    else:
-        form = CreateUserForm()
-    return render(request, 'signup.html', {'form': form})
 
-def login(request):
-    if request.method=="POST":
-        username=request.POST.get('username')
-        password=request.POST.get('password')
-        
-        user=authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return redirect('/')
-    return render(request, 'login.html')
