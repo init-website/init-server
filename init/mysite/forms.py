@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import Homework_submit, InitUser
 from django.core.exceptions import ValidationError
 
@@ -18,7 +19,7 @@ class CreateUserForm(forms.ModelForm):
     password1 = forms.CharField(label="비밀번호", widget=forms.PasswordInput)
     password2 = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput)
     class Meta:
-        model = InitUser
+        model = get_user_model()
         fields = ['username', 'password1', 'password2', 'last_name', 'first_name', 'email', 'year']
     def clean_username(self):
         username = self.cleaned_data['username']
@@ -50,3 +51,7 @@ class CreateUserForm(forms.ModelForm):
             user.save()
         return user
         
+class UpdateUserForm(UserChangeForm):
+    class Meta:
+        model = get_user_model()
+        fields = ['username', 'last_name', 'first_name', 'email', 'year']
