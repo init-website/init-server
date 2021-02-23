@@ -11,7 +11,7 @@ from imagekit.processors import ResizeToFill, ResizeToFit, Thumbnail
 class InitUser(AbstractUser):
     first_name = models.CharField(max_length=30, blank=False, null=False)
     last_name = models.CharField(max_length=150, blank=False, null=False)
-    email = models.EmailField(blank=False, null=False)
+    email = models.EmailField(blank=False, null=False, unique=True)
     year = models.CharField(max_length=20, null=False, blank=False)
     
 class Profile(models.Model):

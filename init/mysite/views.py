@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 from django.contrib import messages
 from .forms import HomeworkUploadForm, CreateUserForm, UpdateUserForm
+from django.contrib.auth.forms import PasswordChangeForm
 from .models import InitUser, Profile, Project, Homework, Homework_submit
 import datetime
+from django.contrib.auth.decorators import login_required
 
 def signup(request):
     if request.method == "POST":
@@ -12,7 +14,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             Profile.objects.create(user=user)
-            return redirect('/login')
+            return redirect('/accounts/login')
     else:
         form = CreateUserForm()
     return render(request, 'signup.html', {'form': form})
@@ -39,6 +41,18 @@ def update(request):
     else:
 	    form = UpdateUserForm(instance = user)
     return render(request, 'update.html', {'form': form})
+
+def change_password(request):
+    user = request.user
+    if request.method == 'POST':
+        form = PasswordChangeForm(user, request.POST)
+        if form.is_valid():
+            s_user = form.save()
+            update_session_auth_hash(request, s_user)
+            return redirect('/')
+    else:
+        form = PasswordChangeForm(user)
+    return render(request, 'change_password.html', {'form': form})
 
 def profile(request):
     return render(request, 'index.html')
