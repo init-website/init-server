@@ -30,10 +30,11 @@ urlpatterns = [
     path('homework/<int:year>/<int:homework_id>/submit/', mysite.views.homework_submit, name='homework_submit'),
     path('homework/<int:year>/<int:homework_id>/result/', mysite.views.homework_result, name='homework_result'),
 
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('signup/', mysite.views.signup, name='signup'),
-    path('update/', mysite.views.update, name='update'),
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('accounts/signup/', mysite.views.signup, name='signup'),
+    path('accounts/update/', mysite.views.update, name='update'),
+    path('accounts/password/', mysite.views.change_password, name='change_password'),
 
     path('projects/',mysite.views.projects, name='projects'),
     path('projects/<int:pk>/',mysite.views.project_detail, name='project_detail'),
