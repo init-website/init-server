@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout, get_user_model, update_session_auth_hash
 from django.contrib import messages
-from .forms import HomeworkUploadForm, CreateUserForm, UpdateUserForm
+from .forms import HomeworkUploadForm, CreateUserForm, UpdateUserForm, ProfileForm
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import InitUser, Profile, Project, Homework, Homework_submit
 import datetime
@@ -54,8 +54,21 @@ def change_password(request):
         form = PasswordChangeForm(user)
     return render(request, 'change_password.html', {'form': form})
 
-def profile(request):
-    return render(request, 'index.html')
+def get_profile(request):
+    user = request.user
+    profile = user.profile
+    return render(request, 'profile.html', {'profile': profile})
+
+def update_profile(request):
+    user = request.user
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=user.profile)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    else:
+	    form = ProfileForm(instance=user.profile)
+    return render(request, 'profile_update.html', {'form': form})
 
 def home(request):
     return render(request, 'index.html')

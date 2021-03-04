@@ -1,0 +1,6 @@
+{% extends 'base.html' %} {% load static %} {% block contents %}
+<form method="POST">
+  {% csrf_token %} {% include "form_errors.html" %}{{form.as_p}}
+  <button type="submit">done</button>
+</form>
+{%endblock %}

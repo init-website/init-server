@@ -35,6 +35,8 @@ urlpatterns = [
     path('accounts/signup/', mysite.views.signup, name='signup'),
     path('accounts/update/', mysite.views.update, name='update'),
     path('accounts/password/', mysite.views.change_password, name='change_password'),
+    path('accounts/profile/', mysite.views.get_profile, name='get_profile'),
+    path('accounts/profile/update/', mysite.views.update_profile, name='update_profile'),
 
     path('projects/',mysite.views.projects, name='projects'),
     path('projects/<int:pk>/',mysite.views.project_detail, name='project_detail'),
