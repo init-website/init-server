@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Homework_submit, InitUser
 from django.core.exceptions import ValidationError
+from .models import Homework_submit, Profile
        
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -13,6 +13,11 @@ class UpdateUserForm(UserChangeForm):
     class Meta:
         model = get_user_model()
         fields = ['username', 'last_name', 'first_name', 'email', 'year']
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['picture', 'nickname', 'birthday', 'bio', 'git']
 
 class HomeworkUploadForm(forms.ModelForm):
     class Meta:
