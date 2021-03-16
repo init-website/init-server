@@ -56,13 +56,12 @@ def change_password(request):
 
 def get_profile(request):
     user = request.user
-    profile = user.profile
-    return render(request, 'profile.html', {'profile': profile})
+    return render(request, 'profile.html', {'user': user})
 
 def update_profile(request):
     user = request.user
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=user.profile)
+        form = ProfileForm(request.POST, request.FILES, instance=user.profile)
         if form.is_valid():
             form.save()
             return redirect('/')
