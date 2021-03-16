@@ -17,7 +17,7 @@ class UpdateUserForm(UserChangeForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['picture', 'nickname', 'birthday', 'bio', 'git']
+        fields = ['img', 'nickname', 'birthday', 'bio', 'git']
 
 class HomeworkUploadForm(forms.ModelForm):
     class Meta:

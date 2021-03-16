@@ -18,7 +18,7 @@ class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=10, null=True, blank=True)
     bio = models.TextField(null=True, blank=True)
-    picture = models.ImageField(null=True, blank=True, upload_to='profile/')
+    img = ProcessedImageField(upload_to='profile_uploads/', null=True, blank=True, processors=[Thumbnail(200,200),], format='JPEG', options={'quality':90,})
     birthday = models.DateField(null=True, blank=True)
     git = models.URLField(max_length=60, null=True, blank=True)
 
@@ -55,7 +55,6 @@ class Project(models.Model):
         processors=[ResizeToFit(width=960, upscale=False)],
         format='JPEG' 
     )
-
     img_thumbnail = ImageSpecField(
         source='img',
         processors=[ResizeToFill(600, 600)],
