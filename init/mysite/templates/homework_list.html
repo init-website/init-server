@@ -20,11 +20,12 @@
         <td>{{homework.title}}</td>
         <td>{{homework.writer}}</td>
         <td>{{homework.end_date}}</td>
-        {% if done %}
+        <td>{{done}}</td>
+        <!-- {% if done %}
         <td><i class="fa fa-check" aria-hidden="true"></i></td>
         {% else %}
         <td><i class="fas fa-times"></i></td>
-        {% endif %}
+        {% endif %} -->
       </tr>
       {% endfor %}
     </tbody>
