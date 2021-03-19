@@ -80,10 +80,14 @@ def homework(request):
     return redirect('home')
 
 def homework_list(request, year):
+    user = request.user
     homeworks = Homework.objects.filter(year=year).order_by('-id')
-    user_id = request.user.id
-    done = True
-    return render(request, 'homework_list.html', {'homeworks': homeworks, 'done' : done})
+    submits = Homework_submit.objects.filter(user_id=user.id)
+    done = []
+    for homework in homeworks:
+        if submits.get(homework_id=homework.id):
+            done.append(homework.id)
+    return render(request, 'homework_list.html', {'homeworks': homeworks, 'submits': submits, 'done' : done})
 
 def homework_detail(request, year, homework_id):
     homework = Homework.objects.get(id=homework_id)
